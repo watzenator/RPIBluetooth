@@ -13,8 +13,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   along with this program; if not,  If not, see <https://www.gnu.org/licenses/>
  */
  
  #include "BluetoothSocket.h"
@@ -260,6 +259,14 @@ iostream& BluetoothSocket::getStream()  {
   return *myStream;
 }
 
+MessageBox& BluetoothSocket::getMessageBox() {
+	if (myMessageBox == NULL) {
+		myMessageBox = new MessageBox(getStream());
+	}
+	return *myMessageBox;
+}
+		
+
 ///////////////////////////////////////////////////////////////////////////////
 // BluetoothServerSocket
 ///////////////////////////////////////////////////////////////////////////////
@@ -306,8 +313,47 @@ void BluetoothServerSocket::setListen(int queueLen) throw(BluetoothException) {
   }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// MessageBox
+///////////////////////////////////////////////////////////////////////////////
 
+MessageBox::MessageBox(std::iostream& theStream):theStream(theStream) {
+	thr = new std::thread(&MessageBox::handleMessages, this);
+	thr->detach();
+	running = true;
+}
 
  
- 
- 
+MessageBox::~MessageBox() {
+	delete thr;
+}
+
+std::string MessageBox::readMessage() {
+	mtx.lock();
+	if(theQueue.empty()) {
+		std::string retval = "";
+		mtx.unlock();
+		return retval;
+	}
+	else {
+		std::string retval = theQueue.front();
+		theQueue.pop();
+		mtx.unlock();
+		return retval;
+	}
+}
+
+void MessageBox::handleMessages() {
+	std::string message;
+	try {
+		while(theStream >> message) {
+			mtx.lock();
+			theQueue.push(message);
+			mtx.unlock();
+		}
+	}
+	catch(BluetoothException& be) {
+		cout << "connection lost" << endl;
+		running = false;
+	}
+}

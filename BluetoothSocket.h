@@ -13,8 +13,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   along with this program; if not,  If not, see <https://www.gnu.org/licenses/>
  */
 
 #ifndef __BLUETOOTHSOCKET_INCLUDED__
@@ -33,6 +32,9 @@ typedef void raw_type;       // Type used for raw data on this platform
 #include <cstring>
 #include <stdexcept>
 #include <vector>
+#include <thread>
+#include <queue>
+#include <mutex>
 
 
 /**
@@ -180,6 +182,22 @@ public:
   BluetoothAddress getForeignAddress() throw(BluetoothException);
 };
 
+
+class MessageBox {
+	public:
+	MessageBox(std::iostream &theStream);
+	~MessageBox();
+	std::string readMessage() ;
+	inline bool isRunning() { return running; }
+	private:
+	bool running = false;
+	std::mutex mtx;
+	std::iostream& theStream;
+	std::thread* thr;
+	std::queue<std::string> theQueue;
+	void handleMessages();
+};
+
 /**
  *   TCP socket for communication with other TCP sockets
  */
@@ -218,6 +236,8 @@ public:
    *   to getStream.
    */
   std::iostream &getStream() ;
+  
+  MessageBox& getMessageBox();
 
 private:
   // Access for BluetoothServerSocket::accept() connection creation
@@ -230,6 +250,10 @@ private:
 
   /** Streambuffer managed by myStream. */
   std::streambuf *myStreambuf;
+  
+   /** messagebox associated with this socket, or NULL if it doesn't have
+      one. */  
+  MessageBox* myMessageBox;
 };
 
 /**
@@ -269,6 +293,9 @@ public:
 private:
   void setListen(int queueLen) throw(BluetoothException);
 };
+
+
+	
 
 
 

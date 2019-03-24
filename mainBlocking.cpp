@@ -2,7 +2,7 @@
 using namespace std;
 
 int main() {
-	BluetoothServerSocket serversock(2, 1);
+	BluetoothServerSocket serversock(2, 1);  //2 is het channel-number
 	cout << "listening" << endl;
 	while(true) {
 		BluetoothSocket* clientsock = serversock.accept();
@@ -12,7 +12,8 @@ int main() {
 			
 			
 			string input;
-			while(sockstream >> input) {
+			while(true) {
+				sockstream >> input;  //blokkeert tot er iets te lezen valt
 				cout << "recieved: " << input << endl;
 			}
 			
@@ -20,6 +21,7 @@ int main() {
 		catch(BluetoothException& be) {
 			cout << "connection lost" << endl;
 		}
+		clientsock->close();
 			
 	}
 }
