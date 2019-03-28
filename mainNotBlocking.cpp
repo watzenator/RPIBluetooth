@@ -7,14 +7,14 @@ void forward(int8_t& motorspeed){
 	BP.set_motor_power(PORT_B, motorspeed);
 }
 
-void left(int8_t& speed, int8_t& motorspeed){
-	BP.set_motor_power(PORT_C, -speed);
+void left(int8_t& motorspeed){
+	BP.set_motor_power(PORT_C, -motorspeed);
 	BP.set_motor_power(PORT_B, motorspeed);
 }
 
-void right(int8_t& speed, int8_t& motorspeed){
+void right(int8_t& motorspeed){
 	BP.set_motor_power(PORT_C, motorspeed);
-	BP.set_motor_power(PORT_B, -speed);
+	BP.set_motor_power(PORT_B, -motorspeed);
 }
 
 void brake(){
