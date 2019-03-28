@@ -1,4 +1,4 @@
-#include "BrickPi3.cpp"
+#include "BrickPi3.h"
 #include "BluetoothSocket.h"
 #include <stdio.h>      // for printf
 #include <unistd.h>     // for usleep
@@ -42,10 +42,10 @@ int main() {
 	int32_t EncoderB = BP.offset_motor_encoder(PORT_B, BP.get_motor_encoder(PORT_B));
 
 	BluetoothServerSocket serversock(2, 1);  //2 is het channel-number
-	cout << "listening" << endl;
+	cout << "listening" << std::endl;
 	while(true) {
 		BluetoothSocket* clientsock = serversock.accept();
-		cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
+		cout << "accepted from " << clientsock->getForeignAddress().getAddress() << std::endl;
 		MessageBox& mb = clientsock->getMessageBox();
 
 		//motor settings
