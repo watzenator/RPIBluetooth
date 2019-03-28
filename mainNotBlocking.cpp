@@ -51,7 +51,7 @@ int main() {
 		MessageBox& mb = clientsock->getMessageBox();
 
 		//motor settings
-		int speed = 10;
+		int speed = 50;
 
 
 		std::string input;
