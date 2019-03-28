@@ -44,7 +44,7 @@ int main() {
 			if(input == "UP"){
 				forward(speed);
 			}else if(input == "DOWN"){
-
+				forward(-speed);
 			}else if(input == "LEFT"){
 				left(speed);
 			}else if(input == "RIGHT"){
@@ -52,11 +52,11 @@ int main() {
 			}else if(input == "FIRE"){
 				brake();
 			}else if(input == "A"){
-
+				std::cout << "A";
 			}else if(input == "B"){
-
+				std::cout << "B";
 			}else if(input == "C"){
-
+				std::cout << "C";
 			}
 
 			//
