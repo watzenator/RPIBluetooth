@@ -1,4 +1,4 @@
-#inlucde "BrickPi3.cpp"
+#include "BrickPi3.cpp"
 #include "BluetoothSocket.h"
 #include <stdio.h>      // for printf
 #include <unistd.h>     // for usleep
@@ -52,7 +52,7 @@ int main() {
 		int speed = 10;
 
 
-		string input;
+		std::string input;
 		while(mb.isRunning()) {
 			input = mb.readMessage();  //blokkeert niet
 			//if(input != "") cout << endl << input << endl;
