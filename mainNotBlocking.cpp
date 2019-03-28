@@ -5,6 +5,8 @@
 #include <signal.h>     // for catching exit signals
 #include <iostream>
 
+BrickPi3 BP;
+
 void forward(int motorspeed){
 	BP.set_motor_power(PORT_C, motorspeed);
 	BP.set_motor_power(PORT_B, motorspeed);
