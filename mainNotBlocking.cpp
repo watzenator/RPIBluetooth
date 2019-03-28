@@ -1,4 +1,4 @@
-#include "BrickPi3.h"
+#include "BrickPi3.cpp"
 #include "BluetoothSocket.h"
 #include <stdio.h>      // for printf
 #include <unistd.h>     // for usleep
