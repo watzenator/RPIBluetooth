@@ -2,17 +2,17 @@
 #include <unistd.h>
 using namespace std;
 
-void forward(int8_t& motorspeed){
+void forward(int motorspeed){
 	BP.set_motor_power(PORT_C, motorspeed);
 	BP.set_motor_power(PORT_B, motorspeed);
 }
 
-void left(int8_t& motorspeed){
+void left(int motorspeed){
 	BP.set_motor_power(PORT_C, -motorspeed);
 	BP.set_motor_power(PORT_B, motorspeed);
 }
 
-void right(int8_t& motorspeed){
+void right(int motorspeed){
 	BP.set_motor_power(PORT_C, motorspeed);
 	BP.set_motor_power(PORT_B, -motorspeed);
 }
